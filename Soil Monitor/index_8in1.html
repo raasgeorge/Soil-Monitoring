@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Tanah 8-in-1 - Dashboard</title>
+    <link rel="stylesheet" href="style_8in1.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌱 Sistem Monitoring Tanah 8-in-1</h1>
+            <p class="subtitle">Pemantauan Real-time dengan Sensor RS485 Modbus</p>
+            <div class="status-bar">
+                <div class="connection-status" id="connectionStatus">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Connecting...</span>
+                </div>
+                <div class="last-update">
+                    <span id="lastUpdate">Terakhir diperbarui: -</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Kondisi Tanah -->
+        <section class="section">
+            <h2>🌍 Kondisi Tanah</h2>
+            <div class="cards-grid">
+                <div class="card moisture">
+                    <div class="card-icon">💧</div>
+                    <div class="card-content">
+                        <h3>Kelembaban Tanah</h3>
+                        <div class="value" id="moistureValue">--</div>
+                        <div class="unit">%</div>
+                        <div class="status" id="moistureStatus">Normal</div>
+                    </div>
+                </div>
+
+                <div class="card temperature">
+                    <div class="card-icon">🌡️</div>
+                    <div class="card-content">
+                        <h3>Suhu Tanah</h3>
+                        <div class="value" id="temperatureValue">--</div>
+                        <div class="unit">°C</div>
+                        <div class="status" id="temperatureStatus">Normal</div>
+                    </div>
+                </div>
+
+                <div class="card ec">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-content">
+                        <h3>Konduktivitas (EC)</h3>
+                        <div class="value" id="ecValue">--</div>
+                        <div class="unit">μS/cm</div>
+                        <div class="status" id="ecStatus">Normal</div>
+                    </div>
+                </div>
+
+                <div class="card ph">
+                    <div class="card-icon">⚗️</div>
+                    <div class="card-content">
+                        <h3>pH Tanah</h3>
+                        <div class="value" id="phValue">--</div>
+                        <div class="unit">pH</div>
+                        <div class="status" id="phStatus">Normal</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nutrisi NPK -->
+        <section class="section">
+            <h2>🌿 Nutrisi NPK</h2>
+            <div class="cards-grid">
+                <div class="card nitrogen">
+                    <div class="card-icon">🧪</div>
+                    <div class="card-content">
+                        <h3>Nitrogen (N)</h3>
+                        <div class="value" id="nitrogenValue">--</div>
+                        <div class="unit">mg/kg</div>
+                        <div class="status" id="nitrogenStatus">Normal</div>
+                    </div>
+                </div>
+
+                <div class="card phosphorus">
+                    <div class="card-icon">💊</div>
+                    <div class="card-content">
+                        <h3>Fosfor (P)</h3>
+                        <div class="value" id="phosphorusValue">--</div>
+                        <div class="unit">mg/kg</div>
+                        <div class="status" id="phosphorusStatus">Normal</div>
+                    </div>
+                </div>
+
+                <div class="card potassium">
+                    <div class="card-icon">🔬</div>
+                    <div class="card-content">
+                        <h3>Kalium (K)</h3>
+                        <div class="value" id="potassiumValue">--</div>
+                        <div class="unit">mg/kg</div>
+                        <div class="status" id="potassiumStatus">Normal</div>
+                    </div>
+                </div>
+
+                <div class="card salinity">
+                    <div class="card-icon">🧂</div>
+                    <div class="card-content">
+                        <h3>Salinitas</h3>
+                        <div class="value" id="salinityValue">--</div>
+                        <div class="unit">mg/L</div>
+                        <div class="status" id="salinityStatus">Normal</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grafik Tren - Kondisi Tanah -->
+        <section class="section">
+            <h2>📈 Tren Kondisi Tanah</h2>
+            <div class="charts-section">
+                <div class="chart-container">
+                    <h3>Kelembaban Tanah</h3>
+                    <canvas id="moistureChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Suhu Tanah</h3>
+                    <canvas id="temperatureChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h3>EC (Konduktivitas)</h3>
+                    <canvas id="ecChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h3>pH Tanah</h3>
+                    <canvas id="phChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grafik Tren - NPK -->
+        <section class="section">
+            <h2>📈 Tren Nutrisi NPK</h2>
+            <div class="charts-section">
+                <div class="chart-container">
+                    <h3>Nitrogen (N)</h3>
+                    <canvas id="nitrogenChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Fosfor (P)</h3>
+                    <canvas id="phosphorusChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Kalium (K)</h3>
+                    <canvas id="potassiumChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Salinitas</h3>
+                    <canvas id="salinityChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabel Data -->
+        <section class="section">
+            <h2>📊 Data Historis</h2>
+            <div class="table-controls">
+                <button onclick="exportData()" class="btn-export">📥 Export CSV</button>
+                <button onclick="clearData()" class="btn-clear">🗑️ Hapus Data</button>
+            </div>
+            <div class="table-wrapper">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Waktu</th>
+                            <th>Kelembaban (%)</th>
+                            <th>Suhu (°C)</th>
+                            <th>EC (μS/cm)</th>
+                            <th>pH</th>
+                            <th>N (mg/kg)</th>
+                            <th>P (mg/kg)</th>
+                            <th>K (mg/kg)</th>
+                            <th>Salinitas (mg/L)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody">
+                        <tr>
+                            <td colspan="9" class="no-data">Menunggu data dari sensor...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 Sistem Monitoring Tanah 8-in-1 | Sensor RS485 Modbus RTU</p>
+            <p class="footer-info">Device ID: <span id="deviceId">-</span> | Sensor Type: <span id="sensorType">-</span></p>
+        </footer>
+    </div>
+
+    <script src="script_8in1.js"></script>
+</body>
+</html>
